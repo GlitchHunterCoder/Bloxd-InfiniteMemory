@@ -6,13 +6,13 @@
 ## What it solves
 In bloxd there is commonly a out of memory error that appears when too much data is stored
 This system can resolve out of memory errors and has a theoretical maximum of
-**3 GB** storage as of latest estimationa
+**3 GB** storage as of latest estimations and rough calculations
 
 ## Usage
 ```js
-let a = IM.set(1234)
-let b = IM.set(456)
-console.log(a,b)
-console.log(IM.get(a))
-console.log(IM.length())
+let a = IM.set(123) //returns key [0,0,0], used to get value again
+let b = IM.set(456) //key [0,0,1]
+console.log(a,b) //[0,0,0] [0,0,1]
+console.log(IM.get(a)) //123
+console.log(IM.length()) //2
 ```
