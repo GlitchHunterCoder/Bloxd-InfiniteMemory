@@ -42,6 +42,50 @@ IM = new class {
     return current;
   }
   
+  toNum(key) {
+    let sizes = []
+    let current = this.mem
+  
+    // collect page sizes per level
+    for (let i = 0; i < this.NEST_SIZE; i++) {
+      sizes[i] = current.length
+      current = current[0]
+    }
+  
+    let num = 0
+    for (let i = 0; i < this.NEST_SIZE; i++) {
+      num *= (sizes[i] || 1)
+      num += key[i]
+    }
+  
+    return num
+  }
+
+  toKey(num) {
+    if(num>=this.inx){return void 0}
+    let sizes = []
+    let current = this.mem
+  
+    for (let i = 0; i < this.NEST_SIZE; i++) {
+      sizes[i] = current.length
+      current = current[0] ?? []
+    }
+  
+    let mult = Array(this.NEST_SIZE)
+    mult[this.NEST_SIZE - 1] = 1
+    for (let i = this.NEST_SIZE - 2; i >= 0; i--) {
+      mult[i] = mult[i+1] * sizes[i+1]
+    }
+  
+    let key = Array(this.NEST_SIZE)
+    for (let i = 0; i < this.NEST_SIZE; i++) {
+      key[i] = Math.floor(num / mult[i])
+      num = num % mult[i]
+    }
+  
+    return key
+  }
+
   length(){
     return this.inx
   }
