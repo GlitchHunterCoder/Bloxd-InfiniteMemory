@@ -12,7 +12,7 @@ This system can resolve out of memory errors and has a theoretical maximum of
 ```js
 let a = IM.set(123) //returns [0,0,0]
 let b = IM.set(456) //returns [0,0,1]
-console.log(a,b) //[0,0,0] [0,0,1]
-console.log(IM.get(a)) //123
-console.log(IM.length()) //2
+console.log(a,b) //logs [0,0,0] [0,0,1]
+console.log(IM.get(a)) //logs 123
+console.log(IM.length()) //logs 2
 ```
