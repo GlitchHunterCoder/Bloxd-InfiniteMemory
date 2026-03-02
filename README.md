@@ -10,7 +10,7 @@ This system can resolve out of memory errors and has a theoretical maximum of
 
 ## Usage
 ```js
-let a = IM.set(123) //returns key [0,0,0], used to get value again
+let a = IM.set(123) //key [0,0,0]
 let b = IM.set(456) //key [0,0,1]
 console.log(a,b) //[0,0,0] [0,0,1]
 console.log(IM.get(a)) //123
