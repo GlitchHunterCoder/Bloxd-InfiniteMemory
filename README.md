@@ -18,12 +18,10 @@ it can only handle primatives not including strings, so if you want to store mor
 
 ## Usage
 ```js
-let a = IM.set(123) //returns [0,0,0]
-let b = IM.set(456) //returns [0,0,1]
-console.log(a,b) //logs [0,0,0] [0,0,1]
+let a = IM.set(123) //returns 0
+let b = IM.set(456) //returns 1
+
+console.log(a,b) //logs 0 1
 console.log(IM.get(a)) //logs 123
 console.log(IM.length()) //logs 2
-
-console.log(IM.toNum(a),IM.toNum(b)) //logs 0 1
-console.log(IM.toKey(0),IM.toKey(1)) //[ 0, 0, 0 ] [ 0, 0, 1 ]
 ```
