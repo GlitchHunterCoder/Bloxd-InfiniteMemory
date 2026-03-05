@@ -20,7 +20,7 @@ IM = new class {
         this.inx++
         let keyCopy = [...this.indices];
         this.indices[this.NEST_SIZE - 1]++;
-        return keyCopy;
+        return this.toNum(keyCopy);
       } catch (e) {
         for (let level = this.NEST_SIZE - 1; level >= 0; level--) {
           this.indices[level] = 0;
@@ -33,7 +33,8 @@ IM = new class {
     }
   }
 
-  get(key) {
+  get(k) {
+    let key = this.toKey(k)
     let current = this.mem;
     for (let i = 0; i < key.length; i++) {
       current = current?.[key[i]];
