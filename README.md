@@ -24,7 +24,7 @@ so to find the total number of those primatives storable it becomes the followin
 ```js
 27311 * 12139 * 8 = 2,652,225,832
 
-which is approx 2.6 GB
+which is approx 2.7 GB
 ```
 
 As of latest estimation, work is continuing to find how memory in bloxd as a whole works, and this value will change alongside it when new information is found
