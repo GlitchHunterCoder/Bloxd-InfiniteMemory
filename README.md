@@ -17,12 +17,14 @@ this system can store...
 
 which suggests to me that im measuring pointer memory usage, not memory usage of the value itself
 
+And because floats in JS store 64 bits (8 bytes) of memory (apparently), it is most optimal to store floats
+
 so to find the total number of those primatives storable it becomes the following
 
 ```js
-27311 * 12139 = 331,528,229
+27311 * 12139 * 8 = 2,652,225,832
 
-which is approx 331 MB
+which is approx 2.6 GB
 ```
 
 As of latest estimation, work is continuing to find how memory in bloxd as a whole works, and this value will change alongside it when new information is found
