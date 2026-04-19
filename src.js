@@ -1,93 +1,65 @@
 IM = new class {
-  constructor() {
-    this.NEST_SIZE = 3;
-    this.indices = Array(this.NEST_SIZE).fill(0);
-    this.inx = 0
-    this.mem = [];
+  constructor(){
+    this.CAPS = [3, 8092, 27311]
+    this.BITS = this.CAPS.map(e=>Math.floor(Math.log2(e)))
+    this.mem = []
   }
 
-  set(value) {
-    while (true) {
-      try {
-        let current = this.mem;
-        for (let level = 0; level < this.NEST_SIZE - 1; level++) {
-          let key = this.indices[level];
-          current[key] ??= [];
-          current = current[key];
-        }
-        let finalKey = this.indices[this.NEST_SIZE - 1];
-        current[finalKey] = value;
-        this.inx++
-        let keyCopy = [...this.indices];
-        this.indices[this.NEST_SIZE - 1]++;
-        return this.toNum(keyCopy);
-      } catch (e) {
-        for (let level = this.NEST_SIZE - 1; level >= 0; level--) {
-          this.indices[level] = 0;
-          if (level - 1 >= 0) {
-            this.indices[level - 1]++;
-            break;
-          }
-        }
-      }
-    }
-  }
+  binToNum(bin) {return typeof bin == "number"? bin: parseInt(bin, 2)}
+  
+  numToBin(num) {return ( typeof num == "string"? num: (num >>> 0).toString(2) ).padStart(32, '0')}
 
-  get(k) {
-    let key = this.toKey(k)
-    let current = this.mem;
-    for (let i = 0; i < key.length; i++) {
-      current = current?.[key[i]];
-      if (current === undefined) return undefined;
-    }
-    return current;
+  decode(addr) {
+    const bin = this.numToBin(addr);
+    let offset = 0;
+    return this.BITS.map(e => parseInt(bin.slice(offset, offset += e), 2));
+  }
+  //addr: num or str
+  //binValue: num or str
+  write(addr, binValue) {
+    const [l1, l2, l3] = this.decode(addr);
+    ((this.mem[l1] ??= [])[l2] ??= [])[l3] = this.binToNum(binValue); //there must be a better way
+    return addr;
   }
   
-  toNum(key) {
-    let sizes = []
-    let current = this.mem
-  
-    // collect page sizes per level
-    for (let i = 0; i < this.NEST_SIZE; i++) {
-      sizes[i] = current.length
-      current = current[0]
-    }
-  
-    let num = 0
-    for (let i = 0; i < this.NEST_SIZE; i++) {
-      num *= (sizes[i] || 1)
-      num += key[i]
-    }
-  
-    return num
+  read(addr) {
+    const [l1, l2, l3] = this.decode(addr);
+    const val = this.mem[l1]?.[l2]?.[l3] ?? 0
+    return this.numToBin(val);
   }
-
-  toKey(num) {
-    if(num>=this.inx){return void 0}
-    let sizes = []
-    let current = this.mem
   
-    for (let i = 0; i < this.NEST_SIZE; i++) {
-      sizes[i] = current.length
-      current = current[0] ?? []
+  bitWrite(bitAddr, bitCount, binValue) {
+    const bits = this.binToNum(binValue).toString(2).padStart(bitCount, '0');
+    let cellAddr = bitAddr >> 5;
+    let bitOffset = bitAddr & 31;
+    let written = 0;
+  
+    while (written < bitCount) {
+      const bitsInCell = Math.min(32 - bitOffset, bitCount - written);
+      const chunk = bits.slice(written, written + bitsInCell);
+  
+      const cell = this.read(cellAddr);
+      const masked = cell.slice(0, bitOffset) + chunk + cell.slice(bitOffset + bitsInCell);
+      this.write(cellAddr, masked);
+  
+      written += bitsInCell;
+      bitOffset = 0;
+      cellAddr++;
     }
-  
-    let mult = Array(this.NEST_SIZE)
-    mult[this.NEST_SIZE - 1] = 1
-    for (let i = this.NEST_SIZE - 2; i >= 0; i--) {
-      mult[i] = mult[i+1] * sizes[i+1]
-    }
-  
-    let key = Array(this.NEST_SIZE)
-    for (let i = 0; i < this.NEST_SIZE; i++) {
-      key[i] = Math.floor(num / mult[i])
-      num = num % mult[i]
-    }
-  
-    return key
   }
-
-  length(){
-    return this.inx
+  
+  bitRead(bitAddr, bitCount) {
+    let cellAddr = bitAddr >> 5;
+    let bitOffset = bitAddr & 31;
+    let bits = '';
+  
+    while (bits.length < bitCount) {
+      const bitsInCell = Math.min(32 - bitOffset, bitCount - bits.length);
+      bits += this.read(cellAddr).slice(bitOffset, bitOffset + bitsInCell);
+      bitOffset = 0;
+      cellAddr++;
+    }
+  
+    return bits;
   }
-};
+}
