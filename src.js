@@ -1,6 +1,6 @@
 IM = new class {
   constructor(){
-    this.CAPS = [3, 8092, 27311]
+    this.CAPS = [3, 12137, 27311]
     this.BITS = this.CAPS.map(e=>Math.floor(Math.log2(e)))
     this.mem = []
   }
