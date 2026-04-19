@@ -29,7 +29,7 @@ IM = new class {
   }
   
   bitWrite(bitAddr, bitCount, binValue) {
-    const bits = this.binToNum(binValue).toString(2).padStart(bitCount, '0');
+    const bits = this.numToBin(binValue).padStart(bitCount, '0').slice(-bitCount);
     let cellAddr = bitAddr >> 5;
     let bitOffset = bitAddr & 31;
     let written = 0;
