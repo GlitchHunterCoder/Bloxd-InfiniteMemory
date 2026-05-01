@@ -14,11 +14,10 @@ IM = new class {
     let offset = 0;
     return this.BITS.map(e => parseInt(bin.slice(offset, offset += e), 2));
   }
-  //addr: num or str
-  //binValue: num or str
+
   write(addr, binValue) {
     const [l1, l2, l3] = this.decode(addr);
-    ((this.mem[l1] ??= [])[l2] ??= [])[l3] = this.binToNum(binValue); //there must be a better way
+    ((this.mem[l1] ??= [])[l2] ??= [])[l3] = this.binToNum(binValue);
     return addr;
   }
   
