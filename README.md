@@ -5,7 +5,7 @@
 ## What it solves
 In Bloxd there is a common out of memory error that appears when too much data is stored.
 This system resolves that by packing data into a 3-level hierarchical binary memory field,
-giving access to a much larger theoretical maximum than naive storage.
+giving access to a much larger theoretical maximum than native storage.
 
 ## How it works
 Memory is organised as a 3-level array addressed by a single binary address string or number.
