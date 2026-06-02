@@ -9,12 +9,12 @@ giving access to a much larger theoretical maximum than native storage.
 
 ## How it works
 Memory is organised as a 3-level array addressed by a single binary address string or number.
-Each cell stores ~~32 bits of raw binary data~~ (NOW 64 BITS, thanks to TypedArray conversions to interact with IEEE 754 standards), and the `bitWrite`/`bitRead` functions allow
+Each cell stores ~~32 bits of raw binary data~~ (NOW **64 BITS**, thanks to TypedArray conversions to interact with IEEE 754 standards), and the `bitWrite`/`bitRead` functions allow
 writing and reading arbitrary bit counts across cell boundaries, making the whole field
 behave as one continuous flat bit field.
 
 ## Memory Maximum
-The three levels have capacities of `2 × 8192 × 16384` cells, each holding 32 bits:
+The three levels have capacities of `2 × 8192 × 16384` cells, each holding 64 bits:
 
 ```js
 2 * 8192 * 16384 * 64 = 17,179,869,184 bits // ~2 GB
@@ -22,10 +22,10 @@ The three levels have capacities of `2 × 8192 × 16384` cells, each holding 32 
 
 ## API
 
-### Cell-level (32 bit)
+### Cell-level (64 bit)
 ```js
-IM.write(addr, binValue) // write 32 bits to a cell address (num or binary string)
-IM.read(addr)            // read 32 bits from a cell address, returns binary string
+IM.write(addr, binValue) // write 64 bits to a cell address (float or binary string)
+IM.read(addr)            // read 64 bits from a cell address, returns binary string
 ```
 
 ### Bit-level (arbitrary width)
@@ -39,7 +39,7 @@ Bit operations handle cell boundary spillover automatically, so you never have t
 ### Utilities
 ```js
 IM.binToNum(bin) // binary string or number → number
-IM.numToBin(num) // number or binary string → 32-bit padded binary string
+IM.numToBin(num) // number or binary string → 64-bit padded binary string
 IM.decode(addr)  // address → [l1, l2, l3] cell indices
 ```
 
