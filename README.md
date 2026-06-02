@@ -9,7 +9,7 @@ giving access to a much larger theoretical maximum than native storage.
 
 ## How it works
 Memory is organised as a 3-level array addressed by a single binary address string or number.
-Each cell stores 32 bits of raw binary data, and the `bitWrite`/`bitRead` functions allow
+Each cell stores ~~32 bits of raw binary data~~ (NOW 64 BITS, thanks to TypedArray conversions to interact with IEEE 754 standards), and the `bitWrite`/`bitRead` functions allow
 writing and reading arbitrary bit counts across cell boundaries, making the whole field
 behave as one continuous flat bit field.
 
@@ -17,7 +17,7 @@ behave as one continuous flat bit field.
 The three levels have capacities of `2 × 8192 × 16384` cells, each holding 32 bits:
 
 ```js
-2 * 8192 * 16384 * 32 = 8,589,934,592 bits // ~1 GB
+2 * 8192 * 16384 * 64 = 17,179,869,184 bits // ~2 GB
 ```
 
 ## API
@@ -50,8 +50,8 @@ IM.write(0, 0b10101010);
 IM.read(0); // '00000000000000000000000010101010'
 
 // bit-level — store a 5-bit value at bit position 17
-IM.bitWrite(17, 5, 0b11011);
-IM.bitRead(17, 5); // '11011'
+IM.bitWrite(17, 5, 2.5);
+IM.bitRead(17, 5); 
 
 // cross-boundary — 40 bits starting at bit 28, spills across two cells
 IM.bitWrite(28, 40, '1111111111111111111111111111111111111111');
@@ -59,5 +59,5 @@ IM.bitRead(28, 40); // '1111111111111111111111111111111111111111'
 ```
 
 ## Limitations
-- Values larger than 32 bits must be passed as binary strings to `bitWrite`, as JS number precision caps at 32 bits
+- Values larger than 64 bits must be passed as binary strings to `bitWrite`, as JS number precision caps at 32 bits
 - No string storage yet — only raw binary data
