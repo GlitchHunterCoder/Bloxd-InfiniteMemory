@@ -49,7 +49,7 @@ IM = new class {
   }
   
   bitWrite(bitAddr, bitCount, binValue) {
-      const bits = (typeof binValue === 'string' ? binValue : this.numToBin(binValue))
+      const bits = this.numToBin(binValue)
           .padStart(bitCount, '0')
           .slice(-bitCount)
       
