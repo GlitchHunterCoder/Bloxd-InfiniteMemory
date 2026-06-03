@@ -34,12 +34,12 @@ IM.bitWrite(bitAddr, bitCount, binValue) // write bitCount bits starting at glob
 IM.bitRead(bitAddr, bitCount)            // read bitCount bits starting at global bit index
 ```
 
-Bit operations handle cell boundary spillover automatically, so you never have to think about 32-bit alignment.
+Bit operations handle cell boundary spillover automatically, so you never have to think about 64-bit alignment.
 
 ### Utilities
 ```js
-IM.binToNum(bin) // binary string or number → number
-IM.numToBin(num) // number or binary string → 64-bit padded binary string
+IM.binToNum(bin) // binary string or float → float
+IM.numToBin(num) // float or binary string → 64-bit padded binary string
 IM.decode(addr)  // address → [l1, l2, l3] cell indices
 ```
 
