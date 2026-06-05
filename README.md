@@ -50,7 +50,7 @@ IM.write(0, 0b10101010);
 IM.read(0); // '00000000000000000000000010101010'
 
 // bit-level — store a 5-bit value at bit position 17
-IM.bitWrite(17, 5, 2.5);
+IM.bitWrite(17, 5, "10110");
 IM.bitRead(17, 5); 
 
 // cross-boundary — 40 bits starting at bit 28, spills across two cells
@@ -59,5 +59,5 @@ IM.bitRead(28, 40); // '1111111111111111111111111111111111111111'
 ```
 
 ## Limitations
-- Values larger than 64 bits must be passed as binary strings to `bitWrite`, as JS number precision caps at 32 bits
-- No string storage yet — only raw binary data
+- Values larger than 64 bits must be passed as binary strings to `bitWrite`, as JS number precision caps at 64 bits
+- No general datatype storage yet — only string as raw binary data, or number as interpreted float
