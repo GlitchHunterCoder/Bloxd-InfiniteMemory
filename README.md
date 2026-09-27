@@ -1,6 +1,7 @@
 # Bloxd-InfiniteMemory
-> [!WARNING]
-> This is experimental code and may break without warning in future updates
+
+> [!NOTE]
+> This project is currently complete, little to no more edits will be made here
 
 ## What it solves
 In Bloxd there is a common out of memory error that appears when too much data is stored.
